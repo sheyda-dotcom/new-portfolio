@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sheyda Palpal | Portfolio</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #portfolioFrame {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      z-index: 1;
+      background: transparent;
+    }
+
+    #welcomeOverlay {
+      z-index: 9999;
+    }
+  </style>
+</head>
+
+<body>
+
+  <iframe
+    id="portfolioFrame"
+    name="portfolioFrame"
+    src="home.html"
+    title="Sheyda Palpal Portfolio">
+  </iframe>
+
+  <div class="welcome-overlay" id="welcomeOverlay">
+    <div class="welcome-card">
+      <span class="welcome-label">A PERSONAL EXPERIENCE</span>
+
+      <h2>
+        Take a moment and<br />
+        explore my <span>digital space.</span>
+      </h2>
+
+      <p class="welcome-subtitle">An experience with sound.</p>
+
+      <button id="playButton" class="play-button">
+        <span class="play-icon">▶</span>
+        <span id="playText">PLAY</span>
+      </button>
+
+      <p class="welcome-note">A little something to set the mood.</p>
+    </div>
+  </div>
+
+  <audio id="backgroundMusic" preload="auto" loop>
+    <source src="./assets/into-you-x-bye.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    const music = document.getElementById("backgroundMusic");
+    const overlay = document.getElementById("welcomeOverlay");
+    const playButton = document.getElementById("playButton");
+    const playText = document.getElementById("playText");
+
+    // Check whether music was already started during this session.
+    if (sessionStorage.getItem("musicStarted") === "true") {
+      overlay.style.display = "none";
+    }
+
+    playButton.addEventListener("click", async () => {
+      try {
+        if (music.paused) {
+          await music.play();
+        }
+
+        sessionStorage.setItem("musicStarted", "true");
+        overlay.classList.add("closing");
+
+      } catch (error) {
+        console.error("Music error:", error);
+        playText.textContent = "TRY AGAIN";
+      }
+    });
+  </script>
+
+</body>
+</html>
